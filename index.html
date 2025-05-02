@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paraíso das Delícias</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+ 
+</head>
+<body>
+
+  <header class="topo">
+    <div class="logo">Paraíso das Delícias</div>
+  
+    <nav class="navegacao" id="navegacao">
+      <a href="#menu">Menu</a>
+      <a href="cadastro.html" class="cadastrar">Cadastrar</a>
+      <a href="#footer" class="contacto">Contacto</a>
+    </nav>
+  
+   
+    <div class="menu-toggle" id="menu-toggle">
+      &#9776;
+    </div>
+  </header>
+  
+
+  
+  <section class="hero">
+    <div class="texto-hero">
+      <h1>Sabores que Encantam!</h1>
+      <p>Oferecemos produtos de pastelaria e salgados com sabor, frescura e qualidade num ambiente acolhedor.</p>
+      <div class="botoes">
+        <button onclick="alert('Funcionalidade de pedidos em desenvolvimento.')">Fazer Pedido</button>
+        <button class="secundario" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Saber Mais</button>
+      </div>
+    </div>
+    <div class="imagem-hero">
+      <img src="img/pastry-chef-concept-illustration.png" alt="Imagem de destaque">
+    </div>
+  </section>
+
+
+  <section class="menu" id="menu">
+    <h2>Menu</h2>
+    <div class="produtos">
+      <div class="card">
+        <img src="img/Palmeras (o lentes) de hojaldre_ un dulce fácil y rápido.jpeg" alt="Palmier">
+        <p>Palmier</p>
+      </div>
+      
+      <div class="card">
+        <img src="img/pizzas.jpg" alt="Mini Pizzas">
+        <p>Mini Pizzas</p>
+      </div>
+      <div class="card">
+        <img src="img/chamucas.avif" alt="Chamussas">
+        <p>Chamussas</p>
+      </div>
+      <div class="card">
+        <img src="img/rissois.jpg" alt="Rissóis">
+        <p>Rissóis</p>
+      </div>
+      <div class="card">
+        <img src="img/pasteis de natas.avif" alt="Pastéis de Nata">
+        <p>Pastéis de Nata</p>
+      </div>
+      <div class="card">
+        <img src="img/bolo de chocolate.avif" alt="chocolate">
+        <p>Bolo de chocolate</p>
+      </div>
+      <div class="card">
+        <img src="img/bolo de custard.jpg" alt="custard">
+        <p>Bolo de custard</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="sobre">
+    <h2>Sobre Nós</h2>
+    <div class="conteudo-sobre">
+      <div class="texto-sobre">
+        <p>
+          Fundada em 2025, o <strong>Paraíso das Delícias</strong> nasceu com a missão de oferecer produtos de pastelaria e salgados com <strong>sabor</strong>, <strong>frescura</strong> e <strong>qualidade</strong> num ambiente acolhedor.
+        </p>
+        <p>
+          A nossa paixão pela confeitaria impulsiona-nos a criar experiências únicas que encantam os sentidos de todos os nossos clientes.
+        </p>
+  
+        <div class="valores">
+          <h3>Os Nossos Valores</h3>
+          <ul>
+            <li><i class="fas fa-star"></i> <strong>Qualidade:</strong> Ingredientes selecionados e receitas artesanais.</li>
+            <li><i class="fas fa-leaf"></i> <strong>Frescor:</strong> Tudo é preparado diariamente com muito carinho.</li>
+            <li><i class="fas fa-handshake"></i> <strong>Atendimento:</strong> Equipa simpática e pronta a ajudar.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="imagem-sobre">
+        <img src="img/woman-working-as-professional-chef.jpg" alt="Equipe da pastelaria Paraíso das Delícias">
+      </div>
+    </div>
+  </section>
+
+
+<div id="publicidadeCard" class="publicidade-card">
+  <button onclick="fecharPublicidade()" class="fechar-btn">✖</button>
+  <img src="img/Arte 3 paraiso das deliciass.jpg" alt="Promoção Pastelaria" class="imagem-publi" />
+  <h3>🎉 Promoção da Semana!</h3>
+  <p>Pague <strong>2 Chamuças</strong>,leve   <strong>3</strong>! Só até domingo!</p>
+</div>
+
+
+<div id="iconPublicidade" class="icon-publicidade" onclick="abrirPublicidade()" title="Ver promoção">
+  📢
+</div>
+
+<script>
+  window.onload = function () {
+    const card = document.getElementById("publicidadeCard");
+    const icon = document.getElementById("iconPublicidade");
+
+    
+    card.style.display = "block";
+
+    
+    setTimeout(() => {
+      fecharPublicidade();
+    }, 8000);
+  }
+
+  function fecharPublicidade() {
+    document.getElementById("publicidadeCard").style.display = "none";
+    document.getElementById("iconPublicidade").style.display = "block";
+  }
+
+  function abrirPublicidade() {
+    const card = document.getElementById("publicidadeCard");
+    const icon = document.getElementById("iconPublicidade");
+    card.style.display = "block";
+    card.classList.add("fadeInZoom");
+    icon.style.display = "none";
+  }
+  
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('navegacao');
+
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('show');
+  });
+
+
+</script>
+
+  <section id="footer">
+  <footer class="rodape">
+    <div class="redes-sociais">
+      <a href="https://wa.me/879130376" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+      </a>
+      <a href="https://www.instagram.com/seuusuario" target="_blank">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://facebook.com/seupagina" target="_blank">
+        <i class="fab fa-facebook"></i>
+      </a>
+    </div>
+    <div class="info-footer">
+      <p>&copy; 2025 Paraíso das Delícias. Todos os direitos reservados.</p>
+      <p> Desenvolvido por Jana Conjo</p>
+    </div>
+  </footer>
+</section>
+  
+</html>  
