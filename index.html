@@ -104,45 +104,11 @@
   </section>
 
 
-<div id="publicidadeCard" class="publicidade-card">
-  <button onclick="fecharPublicidade()" class="fechar-btn">✖</button>
-  <img src="img/Arte 3 paraiso das deliciass.jpg" alt="Promoção Pastelaria" class="imagem-publi" />
-  <h3>🎉 Promoção da Semana!</h3>
-  <p>Pague <strong>2 Chamuças</strong>,leve   <strong>3</strong>! Só até domingo!</p>
-</div>
 
-
-<div id="iconPublicidade" class="icon-publicidade" onclick="abrirPublicidade()" title="Ver promoção">
-  📢
-</div>
 
 <script>
-  window.onload = function () {
-    const card = document.getElementById("publicidadeCard");
-    const icon = document.getElementById("iconPublicidade");
 
-    
-    card.style.display = "block";
-
-    
-    setTimeout(() => {
-      fecharPublicidade();
-    }, 8000);
-  }
-
-  function fecharPublicidade() {
-    document.getElementById("publicidadeCard").style.display = "none";
-    document.getElementById("iconPublicidade").style.display = "block";
-  }
-
-  function abrirPublicidade() {
-    const card = document.getElementById("publicidadeCard");
-    const icon = document.getElementById("iconPublicidade");
-    card.style.display = "block";
-    card.classList.add("fadeInZoom");
-    icon.style.display = "none";
-  }
-  
+ 
   const toggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('navegacao');
 
