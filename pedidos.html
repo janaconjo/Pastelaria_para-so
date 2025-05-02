@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedidos - Paraíso das Delícias</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fffaf3;
+      color: #333;
+      margin: 0;
+    }
+
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 2em;
+      background-color: #d2691e;
+      border-bottom: 1px solid #ccc;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.8em;
+      color: #ffffff;
+    }
+
+    .topo .logo img {
+      max-width: 150px;
+      height: auto;
+    }
+
+    .navegacao a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1, h2 {
+      color: #d35400;
+    }
+
+    .barra-pesquisa {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .barra-pesquisa input {
+      width: 60%;
+      padding: 10px;
+      border: 2px solid #f08a5d;
+      border-radius: 20px;
+      transition: all 0.3s;
+      font-size: 1em;
+      padding-left: 35px;
+      background-image: url('https://cdn-icons-png.flaticon.com/512/622/622669.png');
+      background-size: 20px;
+      background-repeat: no-repeat;
+      background-position: 10px center;
+    }
+
+    .barra-pesquisa input:focus {
+      outline: none;
+      box-shadow: 0 0 10px #f08a5d80;
+    }
+
+    .produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .produto {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      padding: 15px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .produto:hover {
+      transform: scale(1.03);
+    }
+
+    .produto img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    .produto button {
+      background-color: #f08a5d;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .carrinho {
+      margin-top: 40px;
+      background: #ffe5d9;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .receitas {
+      margin-top: 50px;
+    }
+
+    .receitas iframe {
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    /* Responsividade para dispositivos móveis */
+    @media (max-width: 768px) {
+      .barra-pesquisa input {
+        width: 80%;
+      }
+
+      .produtos {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .produto {
+        width: 90%;
+        margin-bottom: 20px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      .topo {
+        padding: 1em;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navegacao a {
+        margin-left: 0;
+        margin-top: 10px;
+      }
+
+      .logo {
+        font-size: 1.5em;
+      }
+
+      .receitas iframe {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .topo {
+        padding: 0.5em;
+      }
+
+      .barra-pesquisa input {
+        width: 90%;
+      }
+
+      .produtos {
+        gap: 15px;
+      }
+
+      .produto {
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .receitas iframe {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topo">
+    <div class="logo">Paraíso das Delícias</div> 
+    <nav class="navegacao">
+      <a href="index.html">Início</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Faça o seu Pedido</h1>
+
+    <div class="barra-pesquisa">
+      <input type="text" id="pesquisa" placeholder="Pesquisar produto..." onkeyup="pesquisarProdutos()">
+    </div>
+
+    <div id="produtos" class="produtos"></div>
+
+    <div class="carrinho">
+      <h2>Carrinho de Compras</h2>
+      <ul id="carrinho-lista"></ul>
+      <p><strong>Total:</strong> <span id="total">0</span> MT</p>
+    </div>
+
+    <div class="receitas">
+      <h2>Receitas da Casa 🍩</h2>
+      <iframe src="https://youtu.be/D7qo84QYQoI?si=w56puilE90cAcZsh" allowfullscreen></iframe>
+      <p><strong>Receita Especial:</strong> Pastel de Nata Tradicional com Toque da Casa.</p>
+      <p>Ingredientes: Massa folhada, leite, açúcar, gemas de ovo, baunilha e canela.</p>
+    </div>
+  </div>
+
+<script>
+  const produtos = [
+    { nome: "Palmier", preco: 25, imagem: "img/Palmeras (o lentes) de hojaldre_ un dulce fácil y rápido.jpeg" },
+    { nome: "Mini Pizzas", preco: 35, imagem: "img/pizzas.jpg" },
+    { nome: "Chamussas", preco: 20, imagem: "img/chamucas.avif" },
+    { nome: "Rissóis", preco: 20, imagem: "img/rissois.jpg" },
+    { nome: "Pastéis de Nata", preco: 30, imagem: "img/pasteis de natas.avif" },
+    { nome: "Bolo de Chocolate", preco: 50, imagem: "img/bolo de chocolate.avif" },
+    { nome: "Bolo de Custard", preco: 45, imagem: "img/bolo de chocolate.avif" }
+  ];
+
+  let carrinho = [];
+
+  function exibirProdutos(lista = produtos) {
+    const div = document.getElementById('produtos');
+    div.innerHTML = '';
+    lista.forEach((p, i) => {
+      div.innerHTML += `
+        <div class="produto">
+          <img src="${p.imagem}" alt="${p.nome}">
+          <h3>${p.nome}</h3>
+          <p>${p.preco} MT</p>
+          <button onclick="adicionarCarrinho(${i})">Adicionar ao Carrinho</button>
+        </div>
+      `;
+    });
+  }
+
+  function adicionarCarrinho(index) {
+    carrinho.push(produtos[index]);
+    atualizarCarrinho();
+  }
+
+  function atualizarCarrinho() {
+    const lista = document.getElementById('carrinho-lista');
+    const totalSpan = document.getElementById('total');
+    lista.innerHTML = '';
+    let total = 0;
+
+    carrinho.forEach((item, i) => {
+      total += item.preco;
+      lista.innerHTML += `<li>${item.nome} - ${item.preco} MT <button onclick="removerItem(${i})">Remover</button></li>`;
+    });
+
+    totalSpan.textContent = total;
+  }
+
+  function removerItem(i) {
+    carrinho.splice(i, 1);
+    atualizarCarrinho();
+  }
+
+  function pesquisarProdutos() {
+    const termo = document.getElementById('pesquisa').value.toLowerCase();
+    const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+    exibirProdutos(filtrados);
+  }
+
+  exibirProdutos();
+</script>
+
+</body>
+</html>
