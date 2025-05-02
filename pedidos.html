@@ -78,9 +78,8 @@
     }
 
     .produtos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
 
@@ -89,7 +88,6 @@
       border: 1px solid #ddd;
       border-radius: 15px;
       padding: 15px;
-      width: 220px;
       text-align: center;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       transition: transform 0.3s;
@@ -138,20 +136,20 @@
       padding-left: 20px;
     }
 
-    /* Responsividade para dispositivos móveis */
+    /* Responsividade */
+    @media (max-width: 1024px) {
+      .produtos {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 768px) {
       .barra-pesquisa input {
         width: 80%;
       }
 
       .produtos {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .produto {
-        width: 90%;
-        margin-bottom: 20px;
+        grid-template-columns: 1fr;
       }
 
       .container {
@@ -187,15 +185,6 @@
         width: 90%;
       }
 
-      .produtos {
-        gap: 15px;
-      }
-
-      .produto {
-        width: 100%;
-        margin-bottom: 15px;
-      }
-
       .receitas iframe {
         height: 200px;
       }
@@ -228,7 +217,7 @@
 
     <div class="receitas">
       <h2>Receitas da Casa 🍩</h2>
-      <iframe src="https://youtu.be/D7qo84QYQoI?si=w56puilE90cAcZsh" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/D7qo84QYQoI" allowfullscreen></iframe>
       <p><strong>Receita Especial:</strong> Pastel de Nata Tradicional com Toque da Casa.</p>
       <p>Ingredientes: Massa folhada, leite, açúcar, gemas de ovo, baunilha e canela.</p>
     </div>
