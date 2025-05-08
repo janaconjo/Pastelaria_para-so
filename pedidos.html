@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Pedidos - Paraíso das Delícias</title>
-  <link rel="stylesheet" href="index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background-color: #fffaf3;
       color: #333;
-      margin: 0;
     }
 
     .topo {
@@ -19,37 +24,45 @@
       align-items: center;
       padding: 1em 2em;
       background-color: #d2691e;
-      border-bottom: 1px solid #ccc;
+      color: white;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     .logo {
       font-weight: bold;
       font-size: 1.8em;
-      color: #ffffff;
-    }
-
-    .topo .logo img {
-      max-width: 150px;
-      height: auto;
     }
 
     .navegacao a {
       color: white;
       margin-left: 20px;
       text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .navegacao a:hover {
+      color: #ffd4a3;
     }
 
     .container {
       padding: 20px;
       max-width: 1000px;
       margin: auto;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1, h2 {
       color: #d35400;
+      margin-bottom: 15px;
     }
 
     .barra-pesquisa {
@@ -59,17 +72,16 @@
     }
 
     .barra-pesquisa input {
-      width: 60%;
-      padding: 10px;
+      width: 70%;
+      padding: 12px 40px 12px 40px;
       border: 2px solid #f08a5d;
-      border-radius: 20px;
-      transition: all 0.3s;
-      font-size: 1em;
-      padding-left: 35px;
+      border-radius: 30px;
       background-image: url('https://cdn-icons-png.flaticon.com/512/622/622669.png');
       background-size: 20px;
       background-repeat: no-repeat;
       background-position: 10px center;
+      transition: 0.3s;
+      font-size: 1em;
     }
 
     .barra-pesquisa input:focus {
@@ -79,40 +91,44 @@
 
     .produtos {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
     }
 
     .produto {
-      background: #fff;
-      border: 1px solid #ddd;
+      background: white;
       border-radius: 15px;
       padding: 15px;
       text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
     }
 
     .produto:hover {
       transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
     }
 
     .produto img {
       width: 100%;
       height: 150px;
       object-fit: cover;
-      margin-bottom: 10px;
       border-radius: 10px;
+      margin-bottom: 10px;
     }
 
     .produto button {
       background-color: #f08a5d;
       color: white;
       border: none;
-      padding: 10px 15px;
-      border-radius: 10px;
+      padding: 10px 20px;
+      border-radius: 25px;
       cursor: pointer;
-      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .produto button:hover {
+      background-color: #e56b3d;
     }
 
     .carrinho {
@@ -120,6 +136,17 @@
       background: #ffe5d9;
       padding: 20px;
       border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .carrinho button {
+      background: #d35400;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 0.9em;
     }
 
     .receitas {
@@ -130,73 +157,102 @@
       width: 100%;
       height: 300px;
       border-radius: 15px;
+      border: none;
+      margin-bottom: 10px;
     }
 
     ul {
       padding-left: 20px;
     }
 
-    /* Responsividade */
-    @media (max-width: 1024px) {
-      .produtos {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       .barra-pesquisa input {
-        width: 80%;
-      }
-
-      .produtos {
-        grid-template-columns: 1fr;
-      }
-
-      .container {
-        padding: 15px;
-      }
-
-      .topo {
-        padding: 1em;
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .navegacao a {
-        margin-left: 0;
-        margin-top: 10px;
+        width: 90%;
       }
 
       .logo {
-        font-size: 1.5em;
+        font-size: 1.4em;
       }
 
-      .receitas iframe {
-        height: 250px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .topo {
-        padding: 0.5em;
-      }
-
-      .barra-pesquisa input {
-        width: 90%;
+      .navegacao a {
+        font-size: 0.9em;
+        margin-left: 10px;
       }
 
       .receitas iframe {
         height: 200px;
       }
     }
+    /* Estilo para o título da forma de pagamento */
+.carrinho h3 {
+  color: #a04000;
+  margin-top: 25px;
+}
+
+/* Estilo para selects e inputs da secção de pagamento */
+#pagamento, 
+#operadora, 
+#numero-carteira,
+#pin,
+#banco, 
+#numero-cartao, 
+#validade, 
+#cvv {
+  border: 2px solid #f08a5d;
+  background-color: #fff8f0;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+/* Foco em inputs e selects */
+#pagamento:focus, 
+#operadora:focus,
+#numero-carteira:focus,
+#pin:focus,
+#banco:focus,
+#numero-cartao:focus,
+#validade:focus,
+#cvv:focus {
+  outline: none;
+  border-color: #e17055;
+  box-shadow: 0 0 5px #f08a5d70;
+}
+
+/* Estilo para labels */
+#carteira-movel-info label,
+#cartao-info label {
+  font-weight: 600;
+  color: #6e2c00;
+}
+
+/* Secções internas (divs) da forma de pagamento */
+#carteira-movel-info,
+#cartao-info {
+  background-color: #fff0e6;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #f5c5a0;
+}
+
+/* Placeholder mais suave */
+::placeholder {
+  color: #a87b5d;
+  opacity: 0.8;
+}
+
+/* Botão de finalizar com hover suave */
+button[onclick="finalizarCompra()"]:hover {
+  background-color: #228B22;
+}
+
   </style>
 </head>
 <body>
 
   <header class="topo">
-    <div class="logo">Paraíso das Delícias</div> 
+    <div class="logo"><i class="fas fa-bread-slice"></i> Paraíso das Delícias</div>
     <nav class="navegacao">
-      <a href="index.html">Início</a>
+      <a href="index.html"><i class="fas fa-home"></i> </a>
     </nav>
   </header>
 
@@ -210,13 +266,60 @@
     <div id="produtos" class="produtos"></div>
 
     <div class="carrinho">
-      <h2>Carrinho de Compras</h2>
+      <h2>Carrinho de Compras 🛒</h2>
       <ul id="carrinho-lista"></ul>
       <p><strong>Total:</strong> <span id="total">0</span> MT</p>
+      <h3>Forma de Pagamento 💳</h3>
+      <select id="pagamento" style="padding: 10px; border-radius: 8px; margin-bottom: 15px; width: 100%;">
+        <option value="">-- Escolha uma forma de pagamento --</option>
+        <option value="mpesa">M-Pesa</option>
+        <option value="cartao">Cartão Bancário</option>
+      </select>
+   
+<div id="carteira-movel-info" style="display: none; margin-top: 10px;">
+  <label for="operadora">Escolha a operadora:</label>
+  <select id="operadora" style="padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px;">
+    <option value="">-- Selecione --</option>
+    <option value="mpesa">M-Pesa</option>
+    <option value="emola">e-Mola</option>
+    <option value="mkesh">mKesh</option>
+  </select>
+  <label for="numero-carteira" style="margin-top: 10px; display: block;">Número:</label>
+  <input type="text" id="numero-carteira" placeholder="84xxxxxxx" style="padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px;">
+
+  <label for="numero-carteira" style="margin-top: 10px; display: block;"> Pin: </label>
+  <input type="number" id="pin" placeholder="digite o seu pin" style="padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px;">
+</div>
+
+
+ <div id="cartao-info" style="display: none; margin-top: 10px;">
+  <label for="banco">Escolha o banco:</label>
+  <select id="banco" style="padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px;">
+    <option value="">-- Selecione --</option>
+    <option value="bim">BIM</option>
+    <option value="bci">BCI</option>
+    <option value="absa">ABSA</option>
+    <option value="moza">Moza</option>
+  </select>
+  <label for="numero-cartao" style="margin-top: 10px; display: block;">Número do Cartão:</label>
+  <input type="text" id="numero-cartao" placeholder="XXXX XXXX XXXX XXXX" style="padding: 10px; border-radius: 8px; width: 100%; margin-top: 5px;">
+  <label for="validade" style="margin-top: 10px; display: block;">Validade:</label>
+  <input type="month" id="validade" style="padding: 10px; border-radius: 8px; width: 100%;">
+  <label for="cvv" style="margin-top: 10px; display: block;">CVV:</label>
+  <input type="text" id="cvv" placeholder="XXX" style="padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 10px;">
+</div>
+
     </div>
+    <hr style="margin: 20px 0;">
+
+   
+
+    <button onclick="finalizarCompra()" style="padding: 10px 20px; background-color: rgb(250, 123, 32); color: white; border: none; border-radius: 10px; cursor: pointer;">
+      Finalizar Compra
+    </button>
 
     <div class="receitas">
-      <h2>Receitas da Casa 🍩</h2>
+      <h2>Receita da Casa 🍩</h2>
       <iframe src="https://www.youtube.com/embed/D7qo84QYQoI" allowfullscreen></iframe>
       <p><strong>Receita Especial:</strong> Pastel de Nata Tradicional com Toque da Casa.</p>
       <p>Ingredientes: Massa folhada, leite, açúcar, gemas de ovo, baunilha e canela.</p>
@@ -225,13 +328,13 @@
 
 <script>
   const produtos = [
-    { nome: "Palmier", preco: 25, imagem: "img/Palmeras (o lentes) de hojaldre_ un dulce fácil y rápido.jpeg" },
+    { nome: "Palmier", preco: 25, imagem: "img/palmiers.jpeg" },
     { nome: "Mini Pizzas", preco: 35, imagem: "img/pizzas.jpg" },
     { nome: "Chamussas", preco: 20, imagem: "img/chamucas.avif" },
     { nome: "Rissóis", preco: 20, imagem: "img/rissois.jpg" },
-    { nome: "Pastéis de Nata", preco: 30, imagem: "img/pasteis de natas.avif" },
-    { nome: "Bolo de Chocolate", preco: 50, imagem: "img/bolo de chocolate.avif" },
-    { nome: "Bolo de Custard", preco: 45, imagem: "img/bolo de chocolate.avif" }
+    { nome: "Pastéis de Nata", preco: 30, imagem: "img/pasteis_de_nata.avif" },
+    { nome: "Bolo de Chocolate", preco: 50, imagem: "img/bolo_chocolate.avif" },
+    { nome: "Bolo de Custard", preco: 45, imagem: "img/bolo_custard.avif" }
   ];
 
   let carrinho = [];
@@ -244,8 +347,8 @@
         <div class="produto">
           <img src="${p.imagem}" alt="${p.nome}">
           <h3>${p.nome}</h3>
-          <p>${p.preco} MT</p>
-          <button onclick="adicionarCarrinho(${i})">Adicionar ao Carrinho</button>
+          <p><strong>${p.preco} MT</strong></p>
+          <button onclick="adicionarCarrinho(${i})"><i class="fas fa-cart-plus"></i> Adicionar</button>
         </div>
       `;
     });
@@ -264,7 +367,8 @@
 
     carrinho.forEach((item, i) => {
       total += item.preco;
-      lista.innerHTML += `<li>${item.nome} - ${item.preco} MT <button onclick="removerItem(${i})">Remover</button></li>`;
+      lista.innerHTML += `<li>${item.nome} - ${item.preco} MT 
+        <button onclick="removerItem(${i})">Remover</button></li>`;
     });
 
     totalSpan.textContent = total;
@@ -276,10 +380,41 @@
   }
 
   function pesquisarProdutos() {
-    const termo = document.getElementById('pesquisa').value.toLowerCase();
+    const termo = document.getElementById("pesquisa").value.toLowerCase();
     const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
     exibirProdutos(filtrados);
   }
+
+  function finalizarCompra() {
+    const formaPagamento = document.getElementById('pagamento').value;
+
+    if (carrinho.length === 0) {
+      alert("O carrinho está vazio! Adicione produtos antes de finalizar.");
+      return;
+    }
+
+    if (!formaPagamento) {
+      alert("Escolha uma forma de pagamento antes de finalizar.");
+      return;
+    }
+
+    alert("Compra finalizada com sucesso! Obrigado pela sua preferência ❤️");
+    carrinho = [];
+    atualizarCarrinho();
+    document.getElementById('pagamento').value = "";
+  }
+  document.getElementById('pagamento').addEventListener('change', function () {
+  const opcao = this.value;
+  document.getElementById('carteira-movel-info').style.display = 'none';
+  document.getElementById('cartao-info').style.display = 'none';
+
+  if (opcao === 'mpesa') {
+    document.getElementById('carteira-movel-info').style.display = 'block';
+  } else if (opcao === 'cartao') {
+    document.getElementById('cartao-info').style.display = 'block';
+  }
+});
+
 
   exibirProdutos();
 </script>
