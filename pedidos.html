@@ -271,7 +271,7 @@ button[onclick="finalizarCompra()"]:hover {
       <h3>Forma de Pagamento 💳</h3>
       <select id="pagamento" style="padding: 10px; border-radius: 8px; margin-bottom: 15px; width: 100%;">
         <option value="">-- Escolha uma forma de pagamento --</option>
-        <option value="mpesa">M-Pesa</option>
+        <option value="mpesa">carteira Móvel</option>
         <option value="cartao">Cartão Bancário</option>
       </select>
    
@@ -327,13 +327,14 @@ button[onclick="finalizarCompra()"]:hover {
 
 <script>
   const produtos = [
-    { nome: "Palmier", preco: 25, imagem: "img/palmiers.jpeg" },
-    { nome: "Mini Pizzas", preco: 35, imagem: "img/pizzas.jpg" },
+    { nome: "Palmier", preco: 60, imagem: "img/palmiers.jpeg" },
+    { nome: "Mini Pizzas", preco: 60, imagem: "img/pizzas.jpg" },
     { nome: "Chamussas", preco: 20, imagem: "img/chamucas.avif" },
     { nome: "Rissóis", preco: 20, imagem: "img/rissois.jpg" },
-    { nome: "Pastéis de Nata", preco: 30, imagem: "img/pasteis de natas.avif" },
-    { nome: "Bolo de Chocolate", preco: 50, imagem: "img/bolo de chocolate.avif" },
-    { nome: "Bolo de Custard", preco: 45, imagem: "img/bolo de custard.jpg" }
+    { nome: "Pastéis de Nata", preco: 75, imagem: "img/pasteis de natas.avif" },
+    { nome: "Bolo de Chocolate", preco: 850, imagem: "img/bolo de chocolate.avif" },
+    { nome: "Bolo de Custard", preco: 850, imagem: "img/bolo de custard.jpg" },
+    { nome: "Biscoito Sortido", preco: 70, imagem: "img/biscoito sortido.jpg" }
   ];
 
   let carrinho = [];
