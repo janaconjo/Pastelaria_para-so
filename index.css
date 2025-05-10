@@ -408,7 +408,7 @@ body {
     right: 20px;
     background: #fff8f0;
     padding: 1em 2em;
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
   }
 
@@ -422,6 +422,7 @@ body {
     font-weight: bold;
   }
 }
+
 
   
   @media (max-width: 768px) {
