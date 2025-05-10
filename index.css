@@ -527,13 +527,13 @@ body {
   border: 2px solid #d2691e;
   text-decoration: none;
   border-radius: 5px;
-  font-weight:bolder;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   text-align: center;
-  width: 242px;
+  width: 250px;
   position: relative;
-  right: 6px;
+  right: 4px;
   }
   
   .botao-primario:hover {
