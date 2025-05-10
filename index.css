@@ -39,38 +39,6 @@ body {
   color: #b56c3f;
 }
 
-
-.menu-toggle {
-  display: none;
-}
-
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-    cursor: pointer;
-    font-size: 24px;
-  }
-
-  .navegacao {
-    display: none;
-    flex-direction: column;
-    background-color: #f8d5b8;
-    position: absolute;
-    top: 70px;
-    right: 30px;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-
-  .navegacao.show {
-    display: flex;
-  }
-}
-
-  .navegacao a:hover {
-    color: #ffffff;
-  }
   
   .hero {
     display: flex;
@@ -407,51 +375,54 @@ body {
     }
   }
   
+  /* Estilo do botão de menu hambúrguer */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #ffffff;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Estilo de navegação */
+.navegacao {
+  display: flex;
+  gap: 1.5em;
+}
+
+@media (max-width: 768px) {
   .menu-toggle {
-    display: none;
-    font-size: 28px;
-    color: white;
-    cursor: pointer;
-    
-  
-  }
-  
-  
-  @media (max-width: 768px) {
-    .menu-toggle {
-      display: block;
-      
-    }
-  
-    .navegacao {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background-color: #d2691e;
-      padding: 1em;
-    }
-  
-    .navegacao a {
-      color: white;
-      padding: 0.5em 0;
-      ;
-    }
-  
-    .navegacao.show {
-      display: flex;
-    }
-  }
-  .menu-toggle {
-    font-size: 2em;
-    color: #ffffff;
-    cursor: pointer;
-    display: none;
+    display: block;
     position: absolute;
-    right: 1em;
-    top: 23px;
-    z-index: 1001;
-   
+    top: 25px;
+    right: 25px;
   }
+
+  .navegacao {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background: #fff8f0;
+    padding: 1em 2em;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
+
+  .navegacao.show {
+    display: flex;
+  }
+
+  .navegacao a {
+    margin: 0.5em 0;
+    color: #ffffff;
+    font-weight: bold;
+  }
+}
+
   
   @media (max-width: 768px) {
     .navegacao {
