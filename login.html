@@ -6,6 +6,8 @@
   <title>Login - Paraíso das Delícias</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
   <style>
     * {
       margin: 0;
@@ -168,6 +170,7 @@
 </head>
 <body>
 
+  <!-- Cabeçalho -->
   <header>
     <div class="logo"><i class="fas fa-bread-slice"></i> Paraíso das Delícias</div>
     <nav class="navegacao">
@@ -176,14 +179,15 @@
     </nav>
   </header>
 
+  <!-- Formulário de Login -->
   <div class="login-card">
     <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-    <form action="#">
+    <form id="loginForm">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Digite seu email" required/>
+      <input type="email" id="email" name="email" placeholder="Digite seu email" required />
 
       <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required/>
+      <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
 
       <button type="submit"><i class="fas fa-lock-open"></i> Entrar</button>
     </form>
@@ -199,6 +203,43 @@
       <p>Ainda não tem conta? <a href="cadastro.html">Regista-te aqui</a></p>
     </div>
   </div>
+
+  <!-- Scripts -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "seu-projeto-id.firebaseapp.com",
+      projectId: "seu-projeto-id",
+      storageBucket: "seu-projeto-id.appspot.com",
+      messagingSenderId: "seu-messagingSenderId",
+      appId: "seu-app-id"
+    };
+
+    // Inicialize o Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Função de login
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+
+      auth.signInWithEmailAndPassword(email, senha)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          alert("Login realizado com sucesso!");
+          window.location.href = "area_atendente.html"; // Redireciona para a área do atendente
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert("Erro no login: " + errorMessage);
+        });
+    });
+  </script>
 
 </body>
 </html>

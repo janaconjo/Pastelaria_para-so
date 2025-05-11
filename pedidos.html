@@ -324,8 +324,8 @@ button[onclick="finalizarCompra()"]:hover {
       <p>Ingredientes: Massa folhada, leite, açúcar, gemas de ovo, baunilha e canela.</p>
     </div>
   </div>
-
 <script>
+ 
   const produtos = [
     { nome: "Palmier", preco: 60, imagem: "img/palmiers.jpeg" },
     { nome: "Mini Pizzas", preco: 60, imagem: "img/pizzas.jpg" },
@@ -339,6 +339,7 @@ button[onclick="finalizarCompra()"]:hover {
 
   let carrinho = [];
 
+  // Função para exibir produtos
   function exibirProdutos(lista = produtos) {
     const div = document.getElementById('produtos');
     div.innerHTML = '';
@@ -354,11 +355,13 @@ button[onclick="finalizarCompra()"]:hover {
     });
   }
 
+  // Função para adicionar produtos ao carrinho
   function adicionarCarrinho(index) {
     carrinho.push(produtos[index]);
     atualizarCarrinho();
   }
 
+  // Função para atualizar a lista de produtos no carrinho e o total
   function atualizarCarrinho() {
     const lista = document.getElementById('carrinho-lista');
     const totalSpan = document.getElementById('total');
@@ -374,17 +377,20 @@ button[onclick="finalizarCompra()"]:hover {
     totalSpan.textContent = total;
   }
 
+  // Função para remover itens do carrinho
   function removerItem(i) {
     carrinho.splice(i, 1);
     atualizarCarrinho();
   }
 
+  // Função para pesquisar produtos
   function pesquisarProdutos() {
     const termo = document.getElementById("pesquisa").value.toLowerCase();
     const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
     exibirProdutos(filtrados);
   }
 
+  // Função para finalizar a compra
   function finalizarCompra() {
     const formaPagamento = document.getElementById('pagamento').value;
 
@@ -398,26 +404,53 @@ button[onclick="finalizarCompra()"]:hover {
       return;
     }
 
+    // Verificar os campos de pagamento com base na forma escolhida
+    if (formaPagamento === 'mpesa') {
+      const operadora = document.getElementById('operadora').value;
+      const numeroCarteira = document.getElementById('numero-carteira').value;
+      const pin = document.getElementById('pin').value;
+
+      if (!operadora || !numeroCarteira || !pin) {
+        alert("Por favor, preencha todos os campos para a carteira móvel.");
+        return;
+      }
+    } else if (formaPagamento === 'cartao') {
+      const banco = document.getElementById('banco').value;
+      const numeroCartao = document.getElementById('numero-cartao').value;
+      const validade = document.getElementById('validade').value;
+      const cvv = document.getElementById('cvv').value;
+
+      if (!banco || !numeroCartao || !validade || !cvv) {
+        alert("Por favor, preencha todos os campos para o pagamento com cartão.");
+        return;
+      }
+    }
+
+    // Finaliza a compra
     alert("Compra finalizada com sucesso! Obrigado pela sua preferência ❤️");
     carrinho = [];
     atualizarCarrinho();
     document.getElementById('pagamento').value = "";
   }
+
+  // Controla a exibição dos campos de pagamento
   document.getElementById('pagamento').addEventListener('change', function () {
-  const opcao = this.value;
-  document.getElementById('carteira-movel-info').style.display = 'none';
-  document.getElementById('cartao-info').style.display = 'none';
+    const opcao = this.value;
+    document.getElementById('carteira-movel-info').style.display = 'none';
+    document.getElementById('cartao-info').style.display = 'none';
 
-  if (opcao === 'mpesa') {
-    document.getElementById('carteira-movel-info').style.display = 'block';
-  } else if (opcao === 'cartao') {
-    document.getElementById('cartao-info').style.display = 'block';
-  }
-});
+    if (opcao === 'mpesa') {
+      document.getElementById('carteira-movel-info').style.display = 'block';
+    } else if (opcao === 'cartao') {
+      document.getElementById('cartao-info').style.display = 'block';
+    }
+  });
 
-
+  // Exibe os produtos na página
   exibirProdutos();
 </script>
+
+
 
 </body>
 </html>

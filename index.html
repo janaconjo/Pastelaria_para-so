@@ -47,6 +47,33 @@
     </div>
   </section>
 
+  <section class="carrossel">
+    <h2>Produtos em Destaque</h2>
+    <div class="carrossel-container">
+      <div class="carrossel-wrapper" id="carrossel-wrapper">
+        <!-- Carrossel de produtos -->
+        <div class="carrossel-item">
+          <img src="img/palmier.jpg" alt="Palmier">
+          <h3>Palmier</h3>
+          <p>Crocantes e deliciosos!</p>
+        </div>
+        <div class="carrossel-item">
+          <img src="img/mini-pizzas.jpg" alt="Mini Pizzas">
+          <h3>Mini Pizzas</h3>
+          <p>Ideais para qualquer hora!</p>
+        </div>
+        <div class="carrossel-item">
+          <img src="img/chamussas.jpg" alt="Chamussas">
+          <h3>Chamussas</h3>
+          <p>O autêntico sabor!</p>
+        </div>
+        <!-- Adiciona mais produtos conforme necessário -->
+      </div>
+      <button class="carrossel-prev" onclick="moverCarrossel(-1)">&#10094;</button>
+      <button class="carrossel-next" onclick="moverCarrossel(1)">&#10095;</button>
+    </div>
+  </section>
+  
 
   <section class="menu" id="menu">
     <h2>Menu</h2>
@@ -78,6 +105,16 @@
     }
   
     exibirProdutos();
+
+    let indexCarrossel = 0;
+function moverCarrossel(direcao) {
+  const wrapper = document.getElementById('carrossel-wrapper');
+  const items = document.querySelectorAll('.carrossel-item');
+  const total = items.length;
+  indexCarrossel = (indexCarrossel + direcao + total) % total;
+  wrapper.style.transform = `translateX(-${indexCarrossel * 100}%)`;
+}
+
   </script>
   
   
