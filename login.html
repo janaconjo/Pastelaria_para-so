@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login - Paraíso das Delícias</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <style>
-    * {
+
+
+
+  <<!DOCTYPE html>
+  <html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Login - Paraíso das Delícias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <style>
+     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -166,80 +170,130 @@
         padding: 2rem 1.5rem;
       }
     }
-  </style>
-</head>
-<body>
+    #error-message {
+  color: #ffffff;
+  background-color: #e74c3c;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.1em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  animation: fadeInError 0.5s ease-in-out;
+}
 
-  <!-- Cabeçalho -->
-  <header>
-    <div class="logo"><i class="fas fa-bread-slice"></i> Paraíso das Delícias</div>
-    <nav class="navegacao">
-      <a href="index.html"><i class="fas fa-home"></i> Início</a>
-      <a href="pedidos.html"><i class="fas fa-cart-plus"></i> Pedidos</a>
-    </nav>
-  </header>
+@keyframes fadeInError {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-  <!-- Formulário de Login -->
-  <div class="login-card">
-    <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-    <form id="loginForm">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Digite seu email" required />
-
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
-
-      <button type="submit"><i class="fas fa-lock-open"></i> Entrar</button>
-    </form>
-
-    <div class="social-login">
-      <p>Ou entre com:</p>
-      <a href="#" aria-label="Entrar com Facebook"><i class="fab fa-facebook"></i></a>
-      <a href="#" aria-label="Entrar com Google"><i class="fab fa-google"></i></a>
-      <a href="#" aria-label="Entrar com WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo"><i class="fas fa-bread-slice"></i> Paraíso das Delícias</div>
+      <nav class="navegacao">
+        <a href="index.html"><i class="fas fa-home"></i> Início</a>
+        <a href="pedidos.html"><i class="fas fa-cart-plus"></i> Pedidos</a>
+      </nav>
+    </header>
+  
+    <div class="login-card">
+      <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+      <form id="loginForm">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Digite seu email" required />
+  
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
+  
+        <button type="submit"><i class="fas fa-lock-open"></i> Entrar</button>
+      </form>
+  
+      <div class="social-login">
+        <p>Ou entre com:</p>
+        <a href="#" aria-label="Entrar com Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" aria-label="Entrar com Google"><i class="fab fa-google"></i></a>
+        <a href="#" aria-label="Entrar com WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+  
+      <div class="footer-link">
+        <p>Ainda não tem conta? <a href="cadastro.html">Regista-te aqui</a></p>
+      </div>
+  
+      <!-- Mensagem de erro -->
+      <div id="error-message" style="color: red; display: none;"></div>
     </div>
-
-    <div class="footer-link">
-      <p>Ainda não tem conta? <a href="cadastro.html">Regista-te aqui</a></p>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "seu-projeto-id.firebaseapp.com",
-      projectId: "seu-projeto-id",
-      storageBucket: "seu-projeto-id.appspot.com",
-      messagingSenderId: "seu-messagingSenderId",
-      appId: "seu-app-id"
-    };
-
-    // Inicialize o Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Função de login
-    const loginForm = document.getElementById('loginForm');
-    loginForm.addEventListener('submit', function(event) {
-      event.preventDefault();
-
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-
-      auth.signInWithEmailAndPassword(email, senha)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          alert("Login realizado com sucesso!");
-          window.location.href = "area_atendente.html"; // Redireciona para a área do atendente
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert("Erro no login: " + errorMessage);
-        });
-    });
-  </script>
-
-</body>
-</html>
+  
+    <script type="module">
+      // Importar as funções do Firebase
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+      import { getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+  
+      // Configuração do Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyCCDJi7PJM-birPRTL_uWzmFZawS3PBeTk",
+        authDomain: "pastelaria-dfe8c.firebaseapp.com",
+        projectId: "pastelaria-dfe8c",
+        storageBucket: "pastelaria-dfe8c.appspot.com",
+        messagingSenderId: "637521675967",
+        appId: "1:637521675967:web:b8faaf6bf52b5c61c2e80a",
+        measurementId: "G-TNCK6P585Y"
+      };
+  
+      // Inicializar o Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+  
+      // Elementos da página
+      const loginForm = document.getElementById('loginForm');
+      const errorMessage = document.getElementById('error-message');
+  
+      // Evento de envio do formulário
+      loginForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+  
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+  
+        // Autenticação do usuário com Firebase
+        signInWithEmailAndPassword(auth, email, senha)
+          .then((userCredential) => {
+            const user = userCredential.user;
+  
+            // Atualiza a coleção de clientes no Firestore com o último login
+            const userRef = doc(db, "clientes", user.uid);
+            getDoc(userRef).then((docSnapshot) => {
+              const timestamp = serverTimestamp();
+  
+              if (!docSnapshot.exists()) {
+                // Adiciona um novo usuário se não existir
+                setDoc(userRef, {
+                  email: user.email,
+                  uid: user.uid,
+                  ultimoLogin: timestamp,
+                  criadoEm: timestamp
+                });
+              } else {
+                // Atualiza o último login
+                updateDoc(userRef, { ultimoLogin: timestamp });
+              }
+            });
+  
+            // Redireciona para a página principal após login
+            window.location.href = "index.html";
+          })
+          .catch((error) => {
+            // Exibe a mensagem de erro
+            errorMessage.style.display = 'block';
+            errorMessage.textContent = "Erro no login: " + error.message;
+          });
+      });
+    </script>
+  
+  </body>
+  </html>
+  

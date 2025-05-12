@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cadastro - Paraíso das Delícias</title>
@@ -201,6 +202,82 @@
       <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
     </div>
   </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyCCDJi7PJM-birPRTL_uWzmFZawS3PBeTk",
+      authDomain: "pastelaria-dfe8c.firebaseapp.com",
+      projectId: "pastelaria-dfe8c",
+      storageBucket: "pastelaria-dfe8c.firebasestorage.app",
+      messagingSenderId: "637521675967",
+      appId: "1:637521675967:web:b8faaf6bf52b5c61c2e80a",
+      measurementId: "G-TNCK6P585Y"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+  
+    const form = document.querySelector("form");
+  
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+  
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+      const senha = document.getElementById("senha").value;
+  
+      if (!nome || !email || !telefone || !senha) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Campos em branco',
+          text: 'Por favor, preencha todos os campos!',
+          confirmButtonColor: '#d35400'
+        });
+        return;
+      }
+  
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+        const user = userCredential.user;
+  
+        await setDoc(doc(db, "clientes", user.uid), {
+          nome,
+          email,
+          telefone,
+          criadoEm: new Date()
+        });
+  
+        Swal.fire({
+          icon: 'success',
+          title: 'Conta criada com sucesso!',
+          text: 'Bem-vindo ao Paraíso das Delícias!',
+          showConfirmButton: false,
+          timer: 2500,
+          background: '#fffbe6',
+          iconColor: '#d35400'
+        }).then(() => {
+          window.location.href = "login.html";
+        });
+  
+      } catch (error) {
+        console.error("Erro ao criar conta:", error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro ao criar conta',
+          text: error.message,
+          confirmButtonColor: '#d35400'
+        });
+      }
+    });
+  </script>
+  
 
 </body>
 </html>
