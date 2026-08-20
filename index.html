@@ -4,9 +4,875 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paraíso das Delícias</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" href="index.css">
- 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --cream:#FBF3E7;
+      --deep-brown:#4A2511;
+      --caramel:#C1440E;
+      --caramel-dark:#9E370B;
+      --gold:#E8A33D;
+      --peach:#FCE4D6;
+      --white:#FFFFFF;
+      --radius-lg:28px;
+      --radius-md:16px;
+      --shadow-soft: 0 20px 50px rgba(74,37,17,0.14);
+    }
+
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      font-family:'Poppins', sans-serif;
+      background:var(--cream);
+      color:var(--deep-brown);
+      overflow-x:hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{
+        animation-duration:0.001ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:0.001ms !important;
+        scroll-behavior:auto !important;
+      }
+    }
+
+    a{ text-decoration:none; color:inherit; }
+    ul{ list-style:none; }
+    img{ max-width:100%; display:block; }
+
+    h1, h2, h3{ font-family:'Fraunces', serif; }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(24px);
+      transition:opacity .7s cubic-bezier(.2,.8,.2,1), transform .7s cubic-bezier(.2,.8,.2,1);
+    }
+    .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+    /* ---------- Header ---------- */
+    .topo{
+      position:fixed;
+      top:0; left:0; width:100%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:1em 2em;
+      background:rgba(74,37,17,0.92);
+      backdrop-filter:blur(6px);
+      color:var(--cream);
+      z-index:1000;
+      transition:padding .3s ease;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:.6em;
+    }
+    .logo img{
+      height:38px;
+      width:38px;
+      object-fit:contain;
+      border-radius:50%;
+      background:var(--gold);
+      padding:4px;
+    }
+    .logo-texto{
+      font-family:'Fraunces', serif;
+      font-weight:600;
+      font-size:1.3em;
+      letter-spacing:.2px;
+    }
+
+    .menu-toggle{
+      display:none;
+      background:none;
+      border:none;
+      color:var(--cream);
+      font-size:1.4em;
+      cursor:pointer;
+    }
+
+    .navegacao{
+      display:flex;
+      align-items:center;
+      gap:1.8em;
+    }
+    .navegacao a{
+      font-size:.95em;
+      font-weight:500;
+      opacity:.85;
+      transition:opacity .25s ease, color .25s ease;
+      position:relative;
+    }
+    .navegacao a:not(.cadastrar):not(.entrar)::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:-6px;
+      width:0%;
+      height:2px;
+      background:var(--gold);
+      transition:width .25s ease;
+    }
+    .navegacao a:not(.cadastrar):not(.entrar):hover::after{ width:100%; }
+    .navegacao a:hover{ opacity:1; color:var(--gold); }
+
+    .navegacao .cadastrar{
+      padding:.5em 1.2em;
+      border-radius:999px;
+      font-weight:600;
+      opacity:1;
+    }
+    .navegacao .cadastrar{
+      background:linear-gradient(135deg, var(--caramel), var(--caramel-dark));
+      box-shadow:0 8px 18px rgba(193,68,14,0.35);
+    }
+    .navegacao .cadastrar:hover{
+      filter:brightness(1.08);
+      color:var(--cream);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero{
+      position:relative;
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      align-items:center;
+      gap:2rem;
+      min-height:92vh;
+      padding:9rem 5vw 4rem;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(232,163,61,0.18), transparent 45%),
+        radial-gradient(circle at 10% 85%, rgba(193,68,14,0.10), transparent 50%);
+      overflow:hidden;
+    }
+
+    .floaters{
+      position:absolute; inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+    .floaters i{
+      position:absolute;
+      color:rgba(193,68,14,0.10);
+      animation:drift 15s ease-in-out infinite;
+    }
+    .floaters i:nth-child(1){ left:5%;  top:20%; font-size:3rem; animation-delay:0s; }
+    .floaters i:nth-child(2){ left:92%; top:15%; font-size:2.2rem; animation-delay:3s; }
+    .floaters i:nth-child(3){ left:88%; top:70%; font-size:2.6rem; animation-delay:6s; }
+    .floaters i:nth-child(4){ left:4%;  top:75%; font-size:2rem; animation-delay:9s; }
+
+    @keyframes drift{
+      0%   { transform:translateY(0) rotate(0deg); }
+      50%  { transform:translateY(-24px) rotate(8deg); }
+      100% { transform:translateY(0) rotate(0deg); }
+    }
+
+    .texto-hero{ position:relative; z-index:1; }
+
+    .texto-hero .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:.5em;
+      font-size:.8em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--caramel);
+      font-weight:600;
+      margin-bottom:1em;
+    }
+    .texto-hero .eyebrow::before{
+      content:"";
+      width:26px; height:2px;
+      background:var(--caramel);
+      display:inline-block;
+    }
+
+    .texto-hero h1{
+      font-size:clamp(2.4em, 5vw, 3.6em);
+      font-weight:700;
+      line-height:1.1;
+      margin-bottom:.4em;
+    }
+    .texto-hero h1 em{
+      font-style:italic;
+      color:var(--caramel);
+      font-weight:500;
+    }
+
+    .texto-hero p{
+      font-size:1.08em;
+      color:#7a5c47;
+      max-width:480px;
+      line-height:1.65;
+      margin-bottom:2em;
+    }
+
+    .botoes{
+      display:flex;
+      gap:1em;
+      flex-wrap:wrap;
+    }
+
+    .botao-primario{
+      background:linear-gradient(135deg, var(--caramel), var(--caramel-dark));
+      color:var(--white);
+      padding:15px 30px;
+      border-radius:999px;
+      font-weight:600;
+      box-shadow:0 12px 26px rgba(193,68,14,0.32);
+      transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .botao-primario:hover{
+      transform:translateY(-3px);
+      box-shadow:0 16px 32px rgba(193,68,14,0.4);
+      filter:brightness(1.05);
+    }
+
+    .secundario{
+      background:transparent;
+      border:2px solid var(--deep-brown);
+      color:var(--deep-brown);
+      padding:13px 28px;
+      border-radius:999px;
+      font-weight:600;
+      cursor:pointer;
+      transition:background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .secundario:hover{
+      background:var(--deep-brown);
+      color:var(--cream);
+      transform:translateY(-3px);
+    }
+
+    .imagem-hero{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:center;
+    }
+    .imagem-hero img{
+      max-width:420px;
+      width:100%;
+      filter:drop-shadow(0 30px 40px rgba(74,37,17,0.25));
+      animation:floatHero 6s ease-in-out infinite;
+    }
+    @keyframes floatHero{
+      0%, 100%{ transform:translateY(0); }
+      50%{ transform:translateY(-16px); }
+    }
+
+    /* ---------- Menu ---------- */
+    .menu{
+      padding:6rem 5vw;
+      text-align:center;
+    }
+    .menu .kicker{
+      font-size:.82em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--caramel);
+      font-weight:600;
+      margin-bottom:.6em;
+      display:block;
+    }
+    .menu h2{
+      font-size:2.2em;
+      font-weight:600;
+      margin-bottom:.3em;
+    }
+    .menu > p{
+      color:#7a5c47;
+      max-width:520px;
+      margin:0 auto 3rem;
+    }
+
+    /* ---------- Menu físico (cardápio que abre) ---------- */
+    .menu-stage{
+      perspective:2200px;
+      max-width:620px;
+      margin:0 auto;
+    }
+
+    .menu-book{
+      position:relative;
+      min-height:540px;
+    }
+
+    /* Capa do cardápio */
+    .capa-menu{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:1.1em;
+      padding:2.5rem 2rem;
+      text-align:center;
+      color:var(--cream);
+      background:
+        radial-gradient(circle at 25% 20%, rgba(232,163,61,0.25), transparent 55%),
+        linear-gradient(155deg, var(--deep-brown), #2E1509);
+      border-radius:8px 22px 22px 8px;
+      box-shadow:-8px 8px 0 rgba(0,0,0,0.07), 0 30px 55px rgba(74,37,17,0.4);
+      cursor:pointer;
+      border:none;
+      transform-origin:left center;
+      transform-style:preserve-3d;
+      transition:transform 1.05s cubic-bezier(.65,0,.35,1), box-shadow 1.05s ease;
+      z-index:3;
+      font-family:'Poppins', sans-serif;
+    }
+    .capa-menu::before{
+      content:"";
+      position:absolute;
+      left:0; top:0; bottom:0;
+      width:16px;
+      background:linear-gradient(to right, rgba(0,0,0,0.35), transparent);
+      border-radius:8px 0 0 8px;
+    }
+    .capa-menu:hover{ filter:brightness(1.05); }
+
+    .capa-selo{
+      width:76px; height:76px;
+      border:2px solid var(--gold);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.7em;
+      color:var(--gold);
+    }
+    .capa-menu h3{
+      font-family:'Fraunces', serif;
+      font-size:1.9em;
+      font-weight:600;
+    }
+    .capa-menu .capa-sub{
+      color:rgba(251,243,231,0.7);
+      font-size:.92em;
+      max-width:280px;
+    }
+    .capa-menu .capa-dica{
+      margin-top:.6em;
+      font-size:.76em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--gold);
+      display:flex;
+      align-items:center;
+      gap:.5em;
+      animation:pulseDica 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDica{
+      0%, 100%{ opacity:.6; transform:translateY(0); }
+      50%{ opacity:1; transform:translateY(3px); }
+    }
+
+    .menu-book.aberto .capa-menu{
+      transform:rotateY(-160deg);
+      box-shadow:0 10px 30px rgba(74,37,17,0.15);
+    }
+
+    /* Páginas por trás da capa */
+    .paginas-menu{
+      position:relative;
+      min-height:540px;
+      background:
+        repeating-linear-gradient(transparent, transparent 42px, rgba(74,37,17,0.05) 43px),
+        var(--white);
+      border-radius:22px 8px 8px 22px;
+      box-shadow:var(--shadow-soft);
+      padding:2.6rem 2.2rem 2rem;
+      z-index:1;
+    }
+    .paginas-menu::before{
+      content:"";
+      position:absolute;
+      right:0; top:0; bottom:0;
+      width:14px;
+      background:linear-gradient(to left, rgba(74,37,17,0.08), transparent);
+      border-radius:0 22px 22px 0;
+    }
+
+    .paginas-cabecalho{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:1.4rem;
+      padding-bottom:1rem;
+      border-bottom:2px dashed #E3D2BE;
+    }
+    .paginas-cabecalho h3{
+      font-family:'Fraunces', serif;
+      font-size:1.3em;
+      color:var(--deep-brown);
+    }
+    .paginas-cabecalho span{
+      font-size:.78em;
+      color:#A9876C;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .fechar-menu{
+      background:none;
+      border:1.5px solid #E3D2BE;
+      color:var(--caramel);
+      width:34px; height:34px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:.9em;
+      transition:background .2s ease, transform .2s ease;
+    }
+    .fechar-menu:hover{
+      background:var(--peach);
+      transform:rotate(90deg);
+    }
+
+    .cardapio-lista{
+      display:flex;
+      flex-direction:column;
+      gap:1.15rem;
+      text-align:left;
+    }
+    .cardapio-lista li{
+      display:flex;
+      align-items:center;
+      gap:1em;
+      opacity:0;
+      transform:translateX(-14px);
+      transition:opacity .5s ease, transform .5s ease;
+    }
+    .cardapio-lista li.in{
+      opacity:1;
+      transform:translateX(0);
+    }
+    .cardapio-lista li i{
+      color:var(--caramel);
+      background:var(--peach);
+      width:42px; height:42px;
+      min-width:42px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      font-size:1em;
+    }
+    .cardapio-lista li .item-nome{
+      font-weight:600;
+      color:var(--deep-brown);
+    }
+    .cardapio-lista li .linha-pontilhada{
+      flex:1;
+      border-bottom:2px dotted #E3D2BE;
+      height:0;
+      margin:0 .3em;
+      align-self:flex-end;
+      margin-bottom:6px;
+    }
+    .cardapio-lista li .item-tag{
+      font-size:.72em;
+      color:#A9876C;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    @media (max-width: 640px){
+      .menu-book{ min-height:600px; }
+      .paginas-menu{ min-height:600px; padding:2.2rem 1.4rem 1.8rem; }
+      .capa-menu h3{ font-size:1.6em; }
+    }
+
+    /* ---------- Sobre ---------- */
+    .sobre{
+      padding:6rem 5vw;
+      background:var(--white);
+    }
+    .conteudo-sobre{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:3.5rem;
+      align-items:center;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .texto-sobre .kicker{
+      font-size:.82em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--caramel);
+      font-weight:600;
+      margin-bottom:.6em;
+      display:block;
+    }
+    .texto-sobre h2{
+      font-size:2.1em;
+      font-weight:600;
+      margin-bottom:.7em;
+    }
+    .texto-sobre p{
+      color:#6b4c37;
+      line-height:1.7;
+      margin-bottom:1.2em;
+    }
+    .texto-sobre strong{ color:var(--caramel-dark); }
+
+    .valores{ margin-top:2rem; }
+    .valores h3{
+      font-size:1.15em;
+      font-weight:600;
+      margin-bottom:1em;
+      color:var(--deep-brown);
+    }
+    .valores ul{ display:flex; flex-direction:column; gap:1em; }
+    .valores li{
+      display:flex;
+      align-items:flex-start;
+      gap:.8em;
+      color:#6b4c37;
+      line-height:1.5;
+    }
+    .valores li i{
+      color:var(--caramel);
+      background:var(--peach);
+      width:34px; height:34px;
+      min-width:34px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      font-size:.85em;
+      margin-top:2px;
+    }
+
+    .imagem-sobre img{
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-soft);
+    }
+
+    /* ---------- Depoimentos ---------- */
+    .depoimentos{
+      padding:6rem 5vw;
+      text-align:center;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(232,163,61,0.10), transparent 45%),
+        var(--cream);
+    }
+    .depoimentos .kicker{
+      font-size:.82em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--caramel);
+      font-weight:600;
+      margin-bottom:.6em;
+      display:block;
+    }
+    .depoimentos h2{
+      font-size:2.2em;
+      font-weight:600;
+      margin-bottom:3rem;
+    }
+    .depoimentos-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:1.6rem;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .depoimento{
+      background:var(--white);
+      border-radius:var(--radius-md);
+      padding:2.2rem 1.8rem;
+      text-align:left;
+      box-shadow:0 10px 26px rgba(74,37,17,0.08);
+      transition:transform .3s ease, box-shadow .3s ease;
+    }
+    .depoimento:hover{
+      transform:translateY(-6px);
+      box-shadow:0 18px 34px rgba(74,37,17,0.14);
+    }
+    .depoimento .estrelas{
+      color:var(--gold);
+      font-size:.9em;
+      margin-bottom:.8em;
+    }
+    .depoimento p{
+      color:#6b4c37;
+      line-height:1.6;
+      margin-bottom:1.4em;
+      font-size:.98em;
+    }
+    .depoimento-autor{
+      display:flex;
+      align-items:center;
+      gap:.8em;
+    }
+    .depoimento-autor .avatar{
+      width:42px; height:42px;
+      border-radius:50%;
+      background:var(--peach);
+      color:var(--caramel);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:'Fraunces', serif;
+      font-weight:600;
+    }
+    .depoimento-autor strong{
+      display:block;
+      font-size:.95em;
+      color:var(--deep-brown);
+    }
+    .depoimento-autor span{
+      font-size:.8em;
+      color:#A9876C;
+    }
+
+    /* ---------- Contacto ---------- */
+    .contacto-secao{
+      padding:6rem 5vw;
+      background:var(--white);
+    }
+    .contacto-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:3rem;
+      max-width:1100px;
+      margin:0 auto;
+      align-items:stretch;
+    }
+    .contacto-info .kicker{
+      font-size:.82em;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--caramel);
+      font-weight:600;
+      margin-bottom:.6em;
+      display:block;
+    }
+    .contacto-info h2{
+      font-size:2.1em;
+      font-weight:600;
+      margin-bottom:.6em;
+    }
+    .contacto-info > p{
+      color:#7a5c47;
+      line-height:1.65;
+      margin-bottom:2em;
+      max-width:420px;
+    }
+    .contacto-lista{
+      display:flex;
+      flex-direction:column;
+      gap:1.2em;
+    }
+    .contacto-lista li{
+      display:flex;
+      align-items:flex-start;
+      gap:1em;
+    }
+    .contacto-lista li i{
+      width:42px; height:42px;
+      min-width:42px;
+      background:var(--peach);
+      color:var(--caramel);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .contacto-lista li strong{
+      display:block;
+      color:var(--deep-brown);
+      font-size:.95em;
+    }
+    .contacto-lista li span{
+      color:#7a5c47;
+      font-size:.9em;
+    }
+    .contacto-mapa{
+      border-radius:var(--radius-lg);
+      overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      min-height:340px;
+    }
+    .contacto-mapa iframe{
+      width:100%;
+      height:100%;
+      min-height:340px;
+      border:0;
+      filter:grayscale(0.15) sepia(0.08);
+    }
+
+    /* ---------- Footer ---------- */
+    .rodape{
+      background:linear-gradient(160deg, var(--deep-brown), #2E1509);
+      color:var(--cream);
+      padding:4.5rem 5vw 0;
+    }
+    .rodape-grid{
+      display:grid;
+      grid-template-columns:1.3fr 1fr 1fr 1.2fr;
+      gap:2.5rem;
+      max-width:1200px;
+      margin:0 auto;
+      padding-bottom:3rem;
+      border-bottom:1px solid rgba(251,243,231,0.12);
+    }
+    .rodape-marca .logo-rodape{
+      display:flex;
+      align-items:center;
+      gap:.6em;
+      margin-bottom:1em;
+    }
+    .rodape-marca .logo-rodape img{
+      height:34px; width:34px;
+      border-radius:50%;
+      background:var(--gold);
+      padding:4px;
+      object-fit:contain;
+    }
+    .rodape-marca .logo-rodape span{
+      font-family:'Fraunces', serif;
+      font-weight:600;
+      font-size:1.15em;
+    }
+    .rodape-marca p{
+      color:rgba(251,243,231,0.65);
+      font-size:.9em;
+      line-height:1.65;
+      max-width:280px;
+      margin-bottom:1.6em;
+    }
+    .redes-sociais{
+      display:flex;
+      gap:1em;
+    }
+    .redes-sociais a{
+      width:40px; height:40px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      border:1.5px solid rgba(251,243,231,0.3);
+      font-size:1em;
+      transition:border-color .25s ease, color .25s ease, transform .25s ease;
+    }
+    .redes-sociais a:hover{
+      border-color:var(--gold);
+      color:var(--gold);
+      transform:translateY(-3px);
+    }
+
+    .rodape-coluna h4{
+      font-family:'Fraunces', serif;
+      font-size:1.05em;
+      font-weight:600;
+      margin-bottom:1.2em;
+      color:var(--gold);
+    }
+    .rodape-coluna ul{
+      display:flex;
+      flex-direction:column;
+      gap:.8em;
+    }
+    .rodape-coluna ul a{
+      color:rgba(251,243,231,0.75);
+      font-size:.9em;
+      transition:color .2s ease, padding-left .2s ease;
+    }
+    .rodape-coluna ul a:hover{
+      color:var(--cream);
+      padding-left:4px;
+    }
+    .rodape-coluna .horario-linha{
+      display:flex;
+      justify-content:space-between;
+      gap:1em;
+      font-size:.88em;
+      color:rgba(251,243,231,0.75);
+    }
+    .rodape-coluna .horario-linha span:last-child{
+      color:rgba(251,243,231,0.5);
+    }
+    .rodape-contacto li{
+      display:flex;
+      align-items:flex-start;
+      gap:.7em;
+      font-size:.88em;
+      color:rgba(251,243,231,0.75);
+      line-height:1.5;
+    }
+    .rodape-contacto li i{
+      color:var(--gold);
+      margin-top:3px;
+      width:16px;
+    }
+
+    .rodape-base{
+      max-width:1200px;
+      margin:0 auto;
+      padding:1.6rem 0 2rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:.8em;
+      font-size:.82em;
+      color:rgba(251,243,231,0.5);
+    }
+    .rodape-base a{ color:rgba(251,243,231,0.7); }
+    .rodape-base a:hover{ color:var(--gold); }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px){
+      .hero{ grid-template-columns:1fr; text-align:center; padding-top:8rem; }
+      .texto-hero p{ margin-left:auto; margin-right:auto; }
+      .botoes{ justify-content:center; }
+      .imagem-hero{ order:-1; }
+      .conteudo-sobre{ grid-template-columns:1fr; }
+      .imagem-sobre{ order:-1; }
+      .contacto-grid{ grid-template-columns:1fr; }
+      .contacto-mapa{ order:-1; min-height:260px; }
+      .contacto-mapa iframe{ min-height:260px; }
+      .rodape-grid{ grid-template-columns:1fr 1fr; }
+    }
+
+    @media (max-width: 720px){
+      .menu-toggle{ display:block; }
+      .navegacao{
+        position:fixed;
+        top:0; right:-100%;
+        width:min(78vw, 320px);
+        height:100vh;
+        background:rgba(46,21,9,0.98);
+        flex-direction:column;
+        align-items:flex-start;
+        justify-content:center;
+        gap:1.6em;
+        padding:2rem;
+        transition:right .35s ease;
+      }
+      .navegacao.show{ right:0; }
+      .navegacao a{ font-size:1.1em; }
+      .rodape-grid{ grid-template-columns:1fr; gap:2.2rem; }
+      .rodape-base{ flex-direction:column; text-align:center; }
+    }
+
+    @media (max-width: 480px){
+      .topo{ padding:.9em 1.2em; }
+      .logo-texto{ font-size:1.05em; }
+      .texto-hero h1{ font-size:2em; }
+    }
+  </style>
 </head>
 <body>
 
@@ -18,142 +884,294 @@
     <button id="menu-toggle" class="menu-toggle" aria-label="Abrir Menu">
       <i class="fas fa-bars" id="menu-icon"></i>
     </button>
-    
-    
-    
+
     <nav class="navegacao" id="navegacao">
       <a href="#menu">Menu</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contacto">Contacto</a>
       <a href="cadastro.html" class="cadastrar">Cadastrar</a>
-      <a href="#footer" class="contacto">Contacto</a>
     </nav>
-  
-   
-   
   </header>
-  
 
-  
   <section class="hero">
-    <div class="texto-hero">
-      <h1>Sabores que Encantam!</h1>
+    <div class="floaters" aria-hidden="true">
+      <i class="fa-solid fa-cookie"></i>
+      <i class="fa-solid fa-cake-candles"></i>
+      <i class="fa-solid fa-pizza-slice"></i>
+      <i class="fa-solid fa-egg"></i>
+    </div>
+    <div class="texto-hero reveal">
+      <span class="eyebrow">Pastelaria artesanal</span>
+      <h1>Sabores que <em>encantam</em>, feitos com carinho.</h1>
       <p>Oferecemos produtos de pastelaria e salgados com sabor, frescura e qualidade num ambiente acolhedor.</p>
       <div class="botoes">
         <a href="pedidos.html" class="botao-primario">Fazer Pedido</a>
         <button class="secundario" onclick="document.getElementById('sobre').scrollIntoView({behavior: 'smooth'})">Saber Mais</button>
       </div>
     </div>
-    <div class="imagem-hero">
+    <div class="imagem-hero reveal">
       <img src="img/pastry-chef-concept-illustration.png" alt="Imagem de destaque">
     </div>
   </section>
 
-
-
-
   <section class="menu" id="menu">
-    <h2>Menu</h2>
-    <div class="produtos" id="produtos"></div>
-  </section>
-  
-  <script>
-    const produtos = [
-      { nome: "Palmier", icon: "fa-cookie" },
-      { nome: "Mini Pizzas", icon: "fa-pizza-slice" },
-      { nome: "Chamussas", icon: "fa-utensils" },
-      { nome: "Rissóis", icon: "fa-pie-chart" },
-      { nome: "Pastéis de Nata", icon: "fa-egg" },
-      { nome: "Bolos", icon: "fa-cake-candles" },
-      
-    ];
-  
-    function exibirProdutos(lista = produtos) {
-      const div = document.getElementById('produtos');
-      div.innerHTML = '';
-      lista.forEach((p) => {
-        div.innerHTML += `
-          <div class="produto">
-            <i class="fa-solid ${p.icon}"></i>
-            <h3>${p.nome}</h3>
+    <span class="kicker reveal">O que preparamos</span>
+    <h2 class="reveal">O nosso Menu</h2>
+    <p class="reveal">Toque no cardápio para abrir e descobrir os nossos sabores.</p>
+
+    <div class="menu-stage reveal">
+      <div class="menu-book" id="menuBook">
+
+        <button type="button" class="capa-menu" id="capaMenu" aria-expanded="false" aria-controls="paginasMenu">
+          <span class="capa-selo"><i class="fa-solid fa-utensils"></i></span>
+          <h3>Cardápio</h3>
+          <p class="capa-sub">Pastelaria e salgados feitos à mão, todos os dias.</p>
+          <span class="capa-dica"><i class="fa-solid fa-hand-pointer"></i> Toque para abrir</span>
+        </button>
+
+        <div class="paginas-menu" id="paginasMenu">
+          <div class="paginas-cabecalho">
+            <div>
+              <h3>Os nossos sabores</h3>
+              <span>Paraíso das Delícias</span>
+            </div>
+            <button type="button" class="fechar-menu" id="fecharMenu" aria-label="Fechar cardápio">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </div>
-        `;
-      });
-    }
-  
-    exibirProdutos();
+          <ul class="cardapio-lista" id="cardapioLista"></ul>
+        </div>
 
-    let indexCarrossel = 0;
-function moverCarrossel(direcao) {
-  const wrapper = document.getElementById('carrossel-wrapper');
-  const items = document.querySelectorAll('.carrossel-item');
-  const total = items.length;
-  indexCarrossel = (indexCarrossel + direcao + total) % total;
-  wrapper.style.transform = `translateX(-${indexCarrossel * 100}%)`;
-}
-
-  </script>
-  
-  
+      </div>
+    </div>
+  </section>
 
   <section id="sobre" class="sobre">
-    <h2>Sobre Nós</h2>
     <div class="conteudo-sobre">
-      <div class="texto-sobre">
+      <div class="texto-sobre reveal">
+        <span class="kicker">A nossa história</span>
+        <h2>Sobre Nós</h2>
         <p>
           Fundada em 2025, o <strong>Paraíso das Delícias</strong> nasceu com a missão de oferecer produtos de pastelaria e salgados com <strong>sabor</strong>, <strong>frescura</strong> e <strong>qualidade</strong> num ambiente acolhedor.
         </p>
         <p>
           A nossa paixão pela confeitaria impulsiona-nos a criar experiências únicas que encantam os sentidos de todos os nossos clientes.
         </p>
-  
+
         <div class="valores">
           <h3>Os Nossos Valores</h3>
           <ul>
-            <li><i class="fas fa-star"></i> <strong>Qualidade:</strong> Ingredientes selecionados e receitas artesanais.</li>
-            <li><i class="fas fa-leaf"></i> <strong>Frescor:</strong> Tudo é preparado diariamente com muito carinho.</li>
-            <li><i class="fas fa-handshake"></i> <strong>Atendimento:</strong> Equipa simpática e pronta a ajudar.</li>
+            <li><i class="fas fa-star"></i> <span><strong>Qualidade:</strong> Ingredientes selecionados e receitas artesanais.</span></li>
+            <li><i class="fas fa-leaf"></i> <span><strong>Frescor:</strong> Tudo é preparado diariamente com muito carinho.</span></li>
+            <li><i class="fas fa-handshake"></i> <span><strong>Atendimento:</strong> Equipa simpática e pronta a ajudar.</span></li>
           </ul>
         </div>
       </div>
-      <div class="imagem-sobre">
+      <div class="imagem-sobre reveal">
         <img src="img/woman-working-as-professional-chef.jpg" alt="Equipe da pastelaria Paraíso das Delícias">
       </div>
     </div>
   </section>
 
+  <section class="depoimentos">
+    <span class="kicker reveal">O que dizem de nós</span>
+    <h2 class="reveal">Depoimentos de Clientes</h2>
+    <div class="depoimentos-grid">
+      <div class="depoimento reveal">
+        <div class="estrelas">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p>Os pastéis de nata são os melhores que já provei em Maputo. O atendimento é sempre com um sorriso e a entrega é rápida.</p>
+        <div class="depoimento-autor">
+          <div class="avatar">L</div>
+          <div><strong>Lúcia M.</strong><span>Cliente frequente</span></div>
+        </div>
+      </div>
+      <div class="depoimento reveal" style="transition-delay:.1s">
+        <div class="estrelas">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+        </div>
+        <p>Encomendei o bolo de aniversário do meu filho e superou as expectativas. Fresco, bonito e com um sabor incrível.</p>
+        <div class="depoimento-autor">
+          <div class="avatar">T</div>
+          <div><strong>Tomás N.</strong><span>Encomenda especial</span></div>
+        </div>
+      </div>
+      <div class="depoimento reveal" style="transition-delay:.2s">
+        <div class="estrelas">
+          <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+        </div>
+        <p>As chamussas são crocantes e bem temperadas. Já se tornou o meu lanche favorito para levar ao escritório.</p>
+        <div class="depoimento-autor">
+          <div class="avatar">S</div>
+          <div><strong>Sara P.</strong><span>Cliente nova</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-
-
-<script>
-
- 
-  const toggle = document.getElementById('menu-toggle');
-  const nav = document.getElementById('navegacao');
-
-  toggle.addEventListener('click', () => {
-    nav.classList.toggle('show');
-  });
-
-
-</script>
+  <section class="contacto-secao" id="contacto">
+    <div class="contacto-grid">
+      <div class="contacto-info reveal">
+        <span class="kicker">Fale connosco</span>
+        <h2>Visite-nos ou entre em contacto</h2>
+        <p>Estamos sempre disponíveis para esclarecer dúvidas, receber encomendas especiais ou simplesmente para um café e conversa.</p>
+        <ul class="contacto-lista">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <div><strong>Morada</strong><span>Avenida 24 de Julho, Maputo, Moçambique</span></div>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <div><strong>Telefone / WhatsApp</strong><span>+258 87 913 0376</span></div>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <div><strong>Email</strong><span>ola@paraisodasdelicias.co.mz</span></div>
+          </li>
+          <li>
+            <i class="fa-solid fa-clock"></i>
+            <div><strong>Horário</strong><span>Segunda a sábado, 08h00 - 19h00</span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="contacto-mapa reveal">
+        <iframe src="https://www.google.com/maps?q=Maputo,Mozambique&output=embed" loading="lazy" allowfullscreen title="Localização Paraíso das Delícias"></iframe>
+      </div>
+    </div>
+  </section>
 
   <section id="footer">
-  <footer class="rodape">
-    <div class="redes-sociais">
-      <a href="https://wa.me/879130376" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-      </a>
-      <a href="https://www.instagram.com/seuusuario" target="_blank">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="https://facebook.com/seupagina" target="_blank">
-        <i class="fab fa-facebook"></i>
-      </a>
-    </div>
-    <div class="info-footer">
-      <p>&copy; 2025 Paraíso das Delícias. Todos os direitos reservados.</p>
-      <p> Desenvolvido por Jana Conjo</p>
-    </div>
-  </footer>
-</section>
-  
-</html>  
+    <footer class="rodape">
+      <div class="rodape-grid">
+        <div class="rodape-marca">
+          <div class="logo-rodape">
+            <img src="img/Logo Paraiso.png" alt="Logotipo Paraíso das Delícias">
+            <span>Paraíso das Delícias</span>
+          </div>
+          <p>Pastelaria e salgados artesanais, feitos diariamente com ingredientes selecionados e muito carinho.</p>
+          <div class="redes-sociais">
+            <a href="https://wa.me/879130376" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/seuusuario" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://facebook.com/seupagina" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          </div>
+        </div>
+
+        <div class="rodape-coluna">
+          <h4>Links Rápidos</h4>
+          <ul>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#sobre">Sobre Nós</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="pedidos.html">Fazer Pedido</a></li>
+            <li><a href="cadastro.html">Criar Conta</a></li>
+          </ul>
+        </div>
+
+        <div class="rodape-coluna">
+          <h4>Horário</h4>
+          <div class="horario-linha"><span>Seg - Sex</span><span>08h - 19h</span></div>
+          <div class="horario-linha"><span>Sábado</span><span>08h - 17h</span></div>
+          <div class="horario-linha"><span>Domingo</span><span>Encerrado</span></div>
+        </div>
+
+        <div class="rodape-coluna">
+          <h4>Contacto</h4>
+          <ul class="rodape-contacto">
+            <li><i class="fa-solid fa-location-dot"></i> Avenida 24 de Julho, Maputo</li>
+            <li><i class="fa-solid fa-phone"></i> +258 87 913 0376</li>
+            <li><i class="fa-solid fa-envelope"></i> ola@paraisodasdelicias.co.mz</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rodape-base">
+        <p>&copy; 2025 Paraíso das Delícias. Todos os direitos reservados.</p>
+        <p>Desenvolvido por Jana Conjo</p>
+      </div>
+    </footer>
+  </section>
+
+  <script>
+    const produtos = [
+      { nome: "Palmier", icon: "fa-cookie", tag: "Doce" },
+      { nome: "Mini Pizzas", icon: "fa-pizza-slice", tag: "Salgado" },
+      { nome: "Chamussas", icon: "fa-utensils", tag: "Salgado" },
+      { nome: "Rissóis", icon: "fa-pie-chart", tag: "Salgado" },
+      { nome: "Pastéis de Nata", icon: "fa-egg", tag: "Doce" },
+      { nome: "Bolos", icon: "fa-cake-candles", tag: "Doce" },
+    ];
+
+    function montarCardapio(lista = produtos) {
+      const ul = document.getElementById('cardapioLista');
+      ul.innerHTML = '';
+      lista.forEach((p) => {
+        ul.innerHTML += `
+          <li>
+            <i class="fa-solid ${p.icon}"></i>
+            <span class="item-nome">${p.nome}</span>
+            <span class="linha-pontilhada"></span>
+            <span class="item-tag">${p.tag}</span>
+          </li>
+        `;
+      });
+    }
+
+    // Cardápio físico: abrir e fechar como um menu real
+    const menuBook = document.getElementById('menuBook');
+    const capaMenu = document.getElementById('capaMenu');
+    const fecharMenuBtn = document.getElementById('fecharMenu');
+
+    function abrirMenu() {
+      menuBook.classList.add('aberto');
+      capaMenu.setAttribute('aria-expanded', 'true');
+      const itens = document.querySelectorAll('#cardapioLista li');
+      itens.forEach((li, i) => {
+        setTimeout(() => li.classList.add('in'), 350 + i * 90);
+      });
+    }
+
+    function fecharMenu() {
+      menuBook.classList.remove('aberto');
+      capaMenu.setAttribute('aria-expanded', 'false');
+      document.querySelectorAll('#cardapioLista li').forEach(li => li.classList.remove('in'));
+    }
+
+    capaMenu.addEventListener('click', abrirMenu);
+    fecharMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      fecharMenu();
+    });
+
+    // Menu mobile
+    const toggle = document.getElementById('menu-toggle');
+    const nav = document.getElementById('navegacao');
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('show');
+    });
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => nav.classList.remove('show'));
+    });
+
+    // Animações ao rolar a página
+    let observer;
+    function observarElementos() {
+      if (!observer) {
+        observer = new IntersectionObserver((entradas) => {
+          entradas.forEach(entrada => {
+            if (entrada.isIntersecting) {
+              entrada.target.classList.add('in-view');
+              observer.unobserve(entrada.target);
+            }
+          });
+        }, { threshold: 0.15 });
+      }
+      document.querySelectorAll('.reveal:not(.in-view)').forEach(el => observer.observe(el));
+    }
+
+    montarCardapio();
+    observarElementos();
+  </script>
+
+</body>
+</html>
